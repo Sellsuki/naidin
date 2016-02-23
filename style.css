@@ -1,0 +1,60 @@
+@import url('http://fonts.googleapis.com/css?family=Neuton');
+li {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+}
+h1 {
+    font-size: 95px;
+    text-align: center;
+    color: black;
+}
+body {
+    font-family: 'Work Sans', sans-serif;
+}
+#catalog, #cart {
+    display: table-cell
+}
+hr {
+    border: 1px dotted #000000;
+    border-style: none none dotted;
+    color: #fff;
+    background-color: #fff;
+    width: 98%;
+}
+div {
+    max-width: 500px;
+    padding: 1%;
+    width: 500px;
+}
+#catalog {
+    position: absolute;
+    right: 50%;
+/*    background: #ee3e64;*/
+}
+
+#cart {
+    position: absolute;
+    left: 50%;
+/*    background: #b7d84b;*/
+}
+.book {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+#clear-cart {
+    background-color: #4D90FE; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
