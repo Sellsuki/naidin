@@ -1,218 +1,82 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html ng-app="store">
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" />
         <title>บ้านนายดิน</title>
-        <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js" data-require="angularjs@1.4" data-semver="1.4.4"></script>
+        <script src="app.js" type="text/javascript"></script>
     </head>
     <body>
-        <h1>บ้านนายดิน</h1>
-
-        <hr>
-        <!-- Display catalog list-->
-
-        <div id="main">
-            <div class="container">
-
-                <div id="catalog">
-                    <h2>Catalog</h2>
-                    <hr>
-                    <ul>
-                        <li><div><p>Harry Potter and the Philosopher's Stone (Book 1)</p><a class="book" href="#" data-name="HarryPotter1" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Harry Potter and the Chamber of Secrets (Book 2)</p><a class="book" href="#" data-name="HarryPotter2" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Harry Potter and the Prisoner of Azkaban (Book 3)</p><a class="book" href="#" data-name="HarryPotter3" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Harry Potter and the Goblet of Fire (Book 4)</p><a class="book" href="#" data-name="HarryPotter4" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Harry Potter and the Order of the Phoenix (Book 5)</p><a class="book" href="#" data-name="HarryPotter5" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Harry Potter and the Half-blood Prince: Children's Edition (Harry Potter 6) </p><a class="book" href="#" data-name="HarryPotter6" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Harry Potter and the Deathly Hallows (Book 7) [Children's Edition] </p><a class="book" href="#" data-name="HarryPotter7" data-price="100.00">Add to Cart</a></div></li>
-                        <li><div><p>Barry Loser Hates Half Term</p><a class="book" href="#" data-name="BarryLoser" data-price="100.00">Add to Cart</a></div></li>
+        <div class="container">
+            <div ng-controller="StoreController">
+                <h1>บ้านนายดิน</h1>
+                <div class="catalog-1">
+                    <ul class="catalog-2">
+                        <li class="book">
+                            <table>
+                                <caption><h2>Catalog</h2></caption>
+                                <tbody>
+                                    <tr ng-repeat="product in products">
+                                        <td>{{product.name}}</td>
+                                        <td>{{product.price | currency:"฿ "}}</td>
+                                        <td><input class="add-button" type="button" ng-click="addItemToCart(product)" value="Add to Cart" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
                     </ul>
                 </div>
-                <div id="cart">
-                    <h2>Shopping Cart</h2>
-                    <hr>
-                    <div>
-
-                        <ul id="display-cart">
-                        </ul>
-                        <div>ราคารวม: <span id="subtotal-cart"></span> บาท</div>
-                        <div>ส่วนลด: <span id="discount-cart"></span> บาท</div>
-                        <div>รวมสุทธ: <span id="total-cart"></span> บาท</div>
-                    </div>
-                    <div>
-                        <button id="clear-cart">Clear</button>
-                    </div>
+                <div class="shopping-cart-1" >
+                    <ul class="shopping-cart-2">
+                        <li class="book-in-cart" >
+                            <table>
+                                <caption><h2>Shopping Cart</h2></caption>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="c in cart">
+                                        <td>{{c.name}}</td>
+                                        <td>{{c.count}}</td>
+                                        <td>{{c.price*c.count | currency:"฿ "}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>Subtotal</td>
+                                        <td></td>
+                                        <td>{{subtotal | currency:"฿ "}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount</td>
+                                        <td></td>
+                                        <td>{{discountReduction | currency:"฿ "}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td></td>
+                                        <td>{{total | currency:"฿ "}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-
-        <div>
-            <script>
-                $(".book").click(function(event){
-                    event.preventDefault();
-                    var name = $(this).attr("data-name");
-                    var price = Number($(this).attr("data-price"));
-                    addItemToCart(name, price, 1);
-                    displayCart();
-                });
-
-                $("#clear-cart").click(function(event){
-                    clearCart();
-                    displayCart();
-                })
-            </script>
-        </div>
-        <!-- Function -->
-        <div>
-            <script>
-                var cartArray = [];
-                var promoSerieName = "HarryPotter";
-                var discountPercent = 0;
-                var reduceAmount = 0;
-                var totalCost = 0;
-
-                var Item = function(name, price, quantity) {
-                    this.name = name;
-                    this.price = price;
-                    this.quantity = quantity;
-                }
-
-
-                function addItemToCart(name, price, quantity){
-                    for(var i in cartArray){
-                        if(cartArray[i].name === name){
-                            cartArray[i].quantity += quantity;
-                            //cartArray[i].price += price;
-                            saveCart();
-                            return;
-                        }
-                    }
-                    var item = new Item(name, price, quantity);
-                    cartArray.push(item);
-                    saveCart();
-                }
-                function displayCart(){
-                    var cartArray = listCart();
-                    var output = "";
-                    for(var i in cartArray){
-                        output +="<li>"+cartArray[i].name+"&nbsp;&nbsp;&nbsp;&nbsp;"+cartArray[i].quantity+"</li>";
-                    }
-                    $("#display-cart").html(output);
-                    $("#subtotal-cart").html(subtotalCost());
-                    $("#discount-cart").html(reduceAmount.toFixed(2));
-                    $("#total-cart").html(totalCost.toFixed(2));
-                }
-                function removeItemFromCart(name){
-                    for(var i in cartArray){
-                        if(cartArray[i].name === name){
-                            cartArray[i].quantity--;
-                            if(cartArray[i].count === 0){
-                                cart.splice( i , 1 );
-                            }
-                            break;
-                        }
-                    }
-                    saveCart();
-                }
-                function clearAllItemFromCart(name){
-                    for(var i in cartArray){
-                        if(cartArray[i].name === name){
-                            cart.splice(i,1);
-                            break;
-                        }
-                    }
-                    saveCart();
-                }
-                function clearCart(){
-                    cartArray = [];
-                    discountPercent = 0;
-                    reduceAmount = 0;
-                    saveCart()
-                }
-                function countCartItem(){
-                    var totalCount = 0;
-                    for (var i in cartArray){
-                        totalCount += cartArray[i].count;
-                    }
-                    return totalCount;
-                }
-                function subtotalCost(){
-                    var subtotalCost = 0;
-
-                    for(var i in cartArray){
-                        subtotalCost += cartArray[i].price * cartArray[i].quantity;
-                    }
-                    readDiscount();
-                    if(discountPercent != 0){
-                        reduceAmount = subtotalCost * discountPercent;
-                        totalCost = subtotalCost - reduceAmount;
-                    }
-                    else{
-                        totalCost = subtotalCost;
-                    }
-                    console.log("discountPercent: "+discountPercent);
-                    console.log("Subtotal: "+subtotalCost);
-                    console.log("Promo: "+reduceAmount);
-                    console.log("Total: "+totalCost);
-
-                    return subtotalCost.toFixed(2);
-                }
-                function saveCart(){
-                    localStorage.setItem("shoppingCart", JSON.stringify(cartArray));
-                }
-                function loadCart(){
-                    cartArray = JSON.parse(localStorage.getItem("shoppingCart"));
-                }
-                function listCart(){
-                    var cartDupli = [];
-                    for(var i in cartArray){
-                        var item = cartArray[i];
-                        var itemDupli = {};
-                        for (var property in item){
-                            itemDupli[property] = item[property];
-                        }
-                        cartDupli.push(itemDupli);
-                    }
-                    return cartDupli;
-                }
-                function readDiscount(){
-                    var promoItemQuantity = 0;
-                    for(var i in cartArray){
-                        if(cartArray[i].name.indexOf(promoSerieName) != -1){
-                            promoItemQuantity++;
-                            //console.log("promoItemQuantity: "+promoItemQuantity);
-                        }
-                    }
-                    if(promoItemQuantity === 2){
-                        discountPercent = .10;
-                    }
-                    if(promoItemQuantity === 3){
-                        discountPercent = .20;
-                    }
-                    if(promoItemQuantity === 4){
-                        discountPercent = .30;
-                    }
-                    if(promoItemQuantity === 5){
-                        discountPercent = .40;
-                    }
-                    if(promoItemQuantity === 6){
-                        discountPercent = .50;
-                    }
-                    if(promoItemQuantity === 7){
-                        discountPercent = .60;
-                    }
-                    if(promoItemQuantity > 7){
-                        discountPercent = 0.0;
-                    }
-                    return discountPercent;
-                }
-
-                loadCart();
-                displayCart();
-            </script>
-
-        </div>
     </body>
+    <!--
+    <footer>
+        <div>
+            <p>Posted by: Hege Refsnes</p>
+            <p>Contact information: <a href="mailto:someone@example.com">
+                someone@example.com</a>.</p>
+        </div>
+    </footer>
+    -->
 </html>

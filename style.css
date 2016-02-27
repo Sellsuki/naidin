@@ -1,60 +1,57 @@
 @import url('http://fonts.googleapis.com/css?family=Neuton');
-li {
-    list-style: none; /* Remove list bullets */
-    padding: 0;
-    margin: 0;
-}
-h1 {
-    font-size: 95px;
-    text-align: center;
-    color: black;
+html {
+    color: #555;
+    /*background-color: #E3B736;*/
 }
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
 }
-#catalog, #cart {
+li {
+    list-style: none; /* Remove list bullets */
+    padding-left: 0;
+    background: white;
+}
+h1 {
+    color: #111;
+    font-size: 75px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+.catalog-1, .shopping-cart-1 {
     display: table-cell
 }
+
 hr {
     border: 1px dotted #000000;
     border-style: none none dotted;
     color: #fff;
     background-color: #fff;
-    width: 98%;
+    width: 98.0%;
 }
-div {
-    max-width: 500px;
-    padding: 1%;
-    width: 500px;
-}
-#catalog {
+.catalog-1 {
     position: absolute;
     right: 50%;
-/*    background: #ee3e64;*/
+    /*background: #ee3e64;*/
 }
 
-#cart {
+.shopping-cart-1 {
     position: absolute;
     left: 50%;
-/*    background: #b7d84b;*/
+    /*background: #b7d84b;*/
 }
-.book {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+table {
+    border-collapse: collapse;
 }
-#clear-cart {
-    background-color: #4D90FE; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+th,
+td {
+    border: 0px solid #cecfd5;
+    padding: 10px 15px;
+}
+footer {
+    width: 100%;
+    background: #222;
+    padding: 60px 0px;
 }
