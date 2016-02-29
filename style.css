@@ -1,0 +1,57 @@
+@import url('http://fonts.googleapis.com/css?family=Neuton');
+html {
+    color: #555;
+    /*background-color: #E3B736;*/
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+li {
+    list-style: none; /* Remove list bullets */
+    padding-left: 0;
+    background: white;
+}
+h1 {
+    color: #111;
+    font-size: 75px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+.catalog-1, .shopping-cart-1 {
+    display: table-cell
+}
+
+hr {
+    border: 1px dotted #000000;
+    border-style: none none dotted;
+    color: #fff;
+    background-color: #fff;
+    width: 98.0%;
+}
+.catalog-1 {
+    position: absolute;
+    right: 50%;
+    /*background: #ee3e64;*/
+}
+
+.shopping-cart-1 {
+    position: absolute;
+    left: 50%;
+    /*background: #b7d84b;*/
+}
+table {
+    border-collapse: collapse;
+}
+th,
+td {
+    border: 0px solid #cecfd5;
+    padding: 10px 15px;
+}
+footer {
+    width: 100%;
+    background: #222;
+    padding: 60px 0px;
+}
