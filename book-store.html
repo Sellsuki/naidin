@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="navbar navbar-inverse navbar-fixed-top" style="color: white;">
+            <div class="navbar-header">
+                <h4>HEADER</h4>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="#">หน้าแรก</a></li>
+                <li><a href="#">หน้าอื่นๆ</a></li>
+                <li><a href="#">หน้าอื่นๆ 2</a></li>
+            </ul>
+            <div class="nav navbar-right" style="margin-right: 100px; margin-top: 10px">
+                <strong>ราคารวม : {{ totalPri }}</strong>
+                <button v-on:click="onSubmit" class="btn btn-success">จ่ายเงิน</button>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 75px">
+            <div v-for="(book, index) in books" class="col-md-4">
+                <center>
+                    <img v-bind:src="book.img" class="img-responsive" style="height: 250px">
+                    <strong>ชื่อหนังสือ {{ book.name }}</strong> ราคา {{ book.price }}
+                    <div class="form-group">
+                        <button v-on:click="onClickBtn(-1, index)" class="btn btn-default">-</button>
+                        <span><input type="number" v-model:value="book.value" v-on:change="calTotal" min="0" class="text-center" style="width: 70px"></span>
+                        <button v-on:click="onClickBtn(1, index)" class="btn btn-default">+</button>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            books: [
+                { id: '001', name: 'Harry Potter 1', img: 'http://t2.gstatic.com/images?q=tbn:ANd9GcSGDAX8oOfmUA2KCyZCyi3Ao--5K8Z5brA6GSfSqxbTLaURCwb_', value: 0, price: 100 },
+                { id: '002', name: 'Harry Potter 2', img: 'http://t3.gstatic.com/images?q=tbn:ANd9GcSb081GYF7Wb__LCIX1bTAsloE6DKbwyl5eLx1hGWcqwMvWPp9F', value: 0, price: 100 },
+                { id: '003', name: 'Harry Potter 3', img: 'http://t2.gstatic.com/images?q=tbn:ANd9GcQ63g7F5VUUHIkxxxVZrosK4O1VOMNNrakPJhyiqbkYnm68Pcva', value: 0, price: 100 },
+                { id: '004', name: 'Harry Potter 4', img: 'http://t0.gstatic.com/images?q=tbn:ANd9GcTgmparf3DEJAnOLF0sfw3i4Er1XMnWXlhyH7eUQpWWtVJBR5gm', value: 0, price: 100 },
+                { id: '005', name: 'Harry Potter 5', img: 'http://t1.gstatic.com/images?q=tbn:ANd9GcTPxBWo98k2YsGejBTGB53ug-nQ5VCLfpqiUjIIZLkrXQ-iHapf', value: 0, price: 100 },
+                { id: '006', name: 'Harry Potter 6', img: 'http://t2.gstatic.com/images?q=tbn:ANd9GcROBM8h4WIlU4QefWN7JTqWmU1vTq6f2PZhWIlgW2Pj4bLdPw7t', value: 0, price: 100 },
+                { id: '007', name: 'Harry Potter 7', img: 'http://t0.gstatic.com/images?q=tbn:ANd9GcQ_TIDjZTDtbEKl7hrK5pruytT8qhSWZws9c8is0x9W6YTR5N4x', value: 0, price: 100 }
+            ],
+            totalPri: 0
+        },
+        methods: {
+            onClickBtn: function (value, index) {
+                this.books[index].value = Number(this.books[index].value)
+                this.books[index].value += (this.books[index].value + value >= 0) ? value : 0
+                this.calTotal()
+            },
+            onSubmit: function () {
+
+            },
+            calTotal: function () {
+                var tempTotal = 0
+                var disPrice = 0;
+                var minValue = 9999;
+
+                for (var i = 0; i < this.books.length; i++) {
+                    if (this.books[i].value > 0) {
+                        disPrice++
+                        if (this.books[i].value < minValue) minValue = this.books[i].value
+                    }
+                }
+
+                if (disPrice > 6) disPrice = 0.6
+                else if (disPrice > 5) disPrice = 0.5
+                else if (disPrice > 4) disPrice = 0.4
+                else if (disPrice > 3) disPrice = 0.3
+                else if (disPrice > 2) disPrice = 0.2
+                else if (disPrice > 1) disPrice = 0.1
+                else disPrice = 0
+
+                for (var i = 0; i < this.books.length; i++) {
+                    if (this.books[i].value > 0)
+                        tempTotal += (this.books[i].value * this.books[i].price) - ((minValue * this.books[i].price) * disPrice)
+                }
+                this.totalPri = tempTotal
+            }
+        }
+    })
+
+</script>
+
+</html>
